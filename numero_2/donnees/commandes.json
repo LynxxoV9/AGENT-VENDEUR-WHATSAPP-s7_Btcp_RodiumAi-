@@ -1,0 +1,12 @@
+[
+  {
+    "id": 12,
+    "client_chat_id": "22995112233@c.us",
+    "reference": "P05",
+    "produit": "robes en wax",
+    "quantite": 2,
+    "zone": "Calavi",
+    "total_fcfa": 46000,
+    "statut": "validee"
+  }
+]
