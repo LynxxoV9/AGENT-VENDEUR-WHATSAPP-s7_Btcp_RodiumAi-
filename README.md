@@ -107,42 +107,19 @@ Pour exécuter le serveur FastAPI et écouter les requêtes Webhook en local :
 
 ---
 
-## 4. Déploiement en Ligne sur Railway (Production 24/7)
+## 4. Déploiement en Ligne sur Render (Production 24/7)
 
-Le projet est configuré pour un déploiement cloud fluide et continu sur [Railway](https://railway.app).
+Le projet est configuré pour un déploiement cloud gratuit et continu sur [Render](https://render.com).
 
 ### Configuration du Déploiement
 
-1. **Pousser le code sur GitHub** :
-   ```bash
-   git add requirements.txt Procfile railway.json README.md
-   git commit -m "Configuration deploiement Railway"
-   git push origin main
-   ```
-
-2. **Créer le projet sur Railway** :
-   * Rendez-vous sur votre tableau de bord [Railway Dashboard](https://railway.app/dashboard).
-   * Cliquez sur **New Project** > **Deploy from GitHub repo**.
-   * Sélectionnez votre dépôt `Bootcamp_RodiumAi_S7`.
-   * Railway détecte automatiquement le projet via [Procfile](file:///home/lynxxoven/Documents/Bootcamp_RodiumAi_S7/Procfile) et [railway.json](file:///home/lynxxoven/Documents/Bootcamp_RodiumAi_S7/railway.json).
-
-3. **Variables d'Environnement sur Railway** :
-   Dans l'onglet **Variables** de votre service, ajoutez :
-   * `BASE_URL` : `https://api.rodiumai.io/v1`
-   * `RODIUMAI_API_KEY` : *Votre clé RodiumAI*
-   * `GREEN_API_URL` : `https://api.green-api.com`
-   * `GREEN_API_ID_INSTANCE` : *Votre ID d'instance Green API*
-   * `GREEN_API_TOKEN_INSTANCE` : *Votre token Green API*
-   * `WEBHOOK_SECRET_TOKEN` : `SESSION7.Pourl4b0utiqu3d3Af1bnin2026`
-   * `NUMERO_AFI_WHATSAPP` : `22899144584@c.us`
-
-4. **Générer le domaine public et liaison avec Green API** :
-   * Dans l'onglet **Settings** de votre service sur Railway, allez dans la section **Networking** et cliquez sur **Generate Domain**.
-   * Vous obtenez une URL publique HTTPS (ex : `https://bootcamp-rodiumai-s7-production.up.railway.app`).
-   * Dans le tableau de bord Green API :
-     * **Webhook URL** : `https://<votre-domaine>.up.railway.app/webhook`
-     * **Header Authorization** : `SESSION7.Pourl4b0utiqu3d3Af1bnin2026`
-     * **Notification activée** : `incomingMessageReceived`.
+. **Config du Web Service sur Render** :
+   * Tableau de bord [Render Dashboard](https://dashboard.render.com).
+   * **New +** > **Web Service** et connectez votre dépôt `Bootcamp_RodiumAi_S7`.
+   * **Runtime** : `Python 3`
+   * **Build Command** : `pip install -r requirements.txt`
+   * **Start Command** : `uvicorn numero_3.serveur:app --host 0.0.0.0 --port $PORT`
+   * **Plan** : `Free`
 
 ---
 
