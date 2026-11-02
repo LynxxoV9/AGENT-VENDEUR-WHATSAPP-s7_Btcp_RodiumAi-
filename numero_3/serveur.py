@@ -132,9 +132,12 @@ def traiter_message_arriere_plan(chat_id: str, texte_message: str):
 # endpoint principal du webhook green api
 @app.post("/webhook")
 async def recevoir_webhook(request: Request, background_tasks: BackgroundTasks, authorization: str = Header(None)):
-    # validation du jeton de webhook dans l en-tete authorization
-    if not authorization or authorization.strip() != WEBHOOK_SECRET_TOKEN:
-        raise HTTPException(status_code=401, detail="Jeton de webhook invalide ou manquant")
+    # validation du jeton de webhook dans l en-tete authorization (supporte avec ou sans prefixe Bearer)
+    if not authorization:
+        raise HTTPException(status_code=401, detail="Jeton de webhook manquant")
+    token_recu = authorization.replace("Bearer ", "").strip()
+    if token_recu != WEBHOOK_SECRET_TOKEN and authorization.strip() != WEBHOOK_SECRET_TOKEN:
+        raise HTTPException(status_code=401, detail="Jeton de webhook invalide")
 
     try:
         corps = await request.json()
