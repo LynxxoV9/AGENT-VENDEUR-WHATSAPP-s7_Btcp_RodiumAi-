@@ -1,3 +1,13 @@
+---
+title: Agent Vendeur Afi
+emoji: 🛍️
+colorFrom: pink
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # Boutique Intelligente — Agent Vendeur WhatsApp (Dantokpa)
 
 Projet d'ingénierie logicielle pour l'automatisation d'une boutique de pagnes et d'accessoires au marché Dantokpa (Cotonou, Bénin) sur WhatsApp. L'agent dialogue avec les clients, consulte le catalogue, calcule la livraison, convertit les monnaies, répond aux questions via RAG, et soumet les commandes à la validation humaine d'Afi.
