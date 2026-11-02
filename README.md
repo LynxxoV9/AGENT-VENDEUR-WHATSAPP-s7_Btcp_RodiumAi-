@@ -107,19 +107,13 @@ Pour exécuter le serveur FastAPI et écouter les requêtes Webhook en local :
 
 ---
 
-## 4. Déploiement en Ligne sur Render (Production 24/7)
+## 4. Architecture de Déploiement en Production
 
-Le projet est configuré pour un déploiement cloud gratuit et continu sur [Render](https://render.com).
-
-### Configuration du Déploiement
-
-. **Config du Web Service sur Render** :
-   * Tableau de bord [Render Dashboard](https://dashboard.render.com).
-   * **New +** > **Web Service** et connectez votre dépôt `Bootcamp_RodiumAi_S7`.
-   * **Runtime** : `Python 3`
-   * **Build Command** : `pip install -r requirements.txt`
-   * **Start Command** : `uvicorn numero_3.serveur:app --host 0.0.0.0 --port $PORT`
-   * **Plan** : `Free`
+Pour assurer un fonctionnement 24h/24 sans dépendance à une machine locale :
+* **Conteneurisation** : Application packagée dans une image Docker légère via [Dockerfile](file:///home/lynxxoven/Documents/Bootcamp_RodiumAi_S7/Dockerfile) (`python:3.10-slim`) exposant le serveur ASGI Uvicorn sur le port 7860.
+* **Hébergement Cloud** : Déployée sur **Hugging Face Spaces** (infrastructure conteneurisée permanente avec 2 vCPU, 16 Go de RAM et terminaison HTTPS automatique).
+* **Passerelle WhatsApp** : Connectée à l'API **Green API** via un endpoint Webhook sécurisé (`/webhook`) avec authentification par jeton secret (`Authorization`) et traitement événementiel asynchrone (`BackgroundTasks`).
+* **Supervision & API** : Surveillance via la sonde `/health` et interface de test interactive OpenAPI disponible sur `/docs`.
 
 ---
 
