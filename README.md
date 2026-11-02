@@ -107,7 +107,47 @@ Pour exécuter le serveur FastAPI et écouter les requêtes Webhook en local :
 
 ---
 
-## 4. Contact & Support
+## 4. Déploiement en Ligne sur Koyeb (Production 24/7)
+
+Le projet est configuré pour un déploiement cloud gratuit et continu sur [Koyeb](https://www.koyeb.com).
+
+### Configuration du Déploiement
+
+1. **Pousser le code sur GitHub** :
+   ```bash
+   git add requirements.txt Procfile koyeb.yaml koyr.yaml README.md
+   git commit -m "Configuration deploiement Koyeb"
+   git push origin main
+   ```
+
+2. **Créer le service sur Koyeb** :
+   * Rendez-vous sur votre tableau de bord [Koyeb Dashboard](https://app.koyeb.com).
+   * Cliquez sur **Create Service** > **GitHub**.
+   * Sélectionnez votre dépôt `Bootcamp_RodiumAi_S7`.
+   * **Build method** : `Buildpack`.
+   * **Run command** (si demandé) : `uvicorn numero_3.serveur:app --host 0.0.0.0 --port 8000`.
+   * **Port & Protocol** : Port `8000` (HTTP).
+   * **Health check** : Route `/health`.
+
+3. **Variables d'Environnement sur Koyeb** :
+   Ajoutez les variables suivantes dans la section **Environment variables** :
+   * `BASE_URL` : `https://api.rodiumai.io/v1`
+   * `RODIUMAI_API_KEY` : *Votre clé RodiumAI*
+   * `GREEN_API_URL` : `https://api.green-api.com`
+   * `GREEN_API_ID_INSTANCE` : *Votre ID d'instance Green API*
+   * `GREEN_API_TOKEN_INSTANCE` : *Votre token Green API*
+   * `WEBHOOK_SECRET_TOKEN` : `SESSION7.Pourl4b0utiqu3d3Af1bnin2026`
+   * `NUMERO_AFI_WHATSAPP` : `22899144584@c.us`
+
+4. **Liaison avec Green API** :
+   Dès que le statut est **Healthy**, Koyeb vous fournit une URL HTTPS (ex: `https://agent-vendeur-afi-xxx.koyeb.app`).
+   * **URL de Webhook Green API** : `https://<votre-domaine-koyeb>.koyeb.app/webhook`
+   * **Header Authorization** : `SESSION7.Pourl4b0utiqu3d3Af1bnin2026`
+   * **Notification activée** : `incomingMessageReceived`.
+
+---
+
+## 5. Contact & Support
 
 Pour toute question, démonstration ou intégration relative à ce projet :
 * **WhatsApp** : [+228 71 37 97 48](https://wa.me/22871379748)
