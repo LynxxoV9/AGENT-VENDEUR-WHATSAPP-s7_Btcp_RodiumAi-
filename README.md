@@ -92,3 +92,22 @@ Bootcamp_RodiumAi_S7/
 # Palier 3 : Tests de mise en production WhatsApp
 ./venv/bin/python numero_3/tests_production.py
 ```
+
+### Lancement du Serveur de Production WhatsApp (Palier 3)
+
+Pour exécuter le serveur FastAPI et écouter les requêtes Webhook en local :
+
+```bash
+./venv/bin/uvicorn numero_3.serveur:app --host 127.0.0.1 --port 8000 --reload
+```
+
+* **Vérification de santé** : [http://127.0.0.1:8000/health](http://127.0.0.1:8000/health)
+* **Documentation & Test interactif Swagger** : [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+* **Endpoint Webhook Green API** : `POST http://127.0.0.1:8000/webhook` (avec header `Authorization: <VOTRE_WEBHOOK_SECRET_TOKEN>`)
+
+---
+
+## 4. Contact & Support
+
+Pour toute question, démonstration ou intégration relative à ce projet :
+* **WhatsApp** : [+228 71 37 97 48](https://wa.me/22871379748)
