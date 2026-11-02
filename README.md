@@ -1,13 +1,3 @@
----
-title: Agent Vendeur Afi
-emoji: 🛍️
-colorFrom: pink
-colorTo: indigo
-sdk: docker
-app_port: 7860
-pinned: false
----
-
 # Boutique Intelligente — Agent Vendeur WhatsApp (Dantokpa)
 
 Projet d'ingénierie logicielle pour l'automatisation d'une boutique de pagnes et d'accessoires au marché Dantokpa (Cotonou, Bénin) sur WhatsApp. L'agent dialogue avec les clients, consulte le catalogue, calcule la livraison, convertit les monnaies, répond aux questions via RAG, et soumet les commandes à la validation humaine d'Afi.
@@ -120,8 +110,8 @@ Pour exécuter le serveur FastAPI et écouter les requêtes Webhook en local :
 ## 4. Architecture de Déploiement en Production
 
 Pour assurer un fonctionnement 24h/24 sans dépendance à une machine locale :
-* **Conteneurisation** : Application packagée dans une image Docker légère via [Dockerfile](file:///home/lynxxoven/Documents/Bootcamp_RodiumAi_S7/Dockerfile) (`python:3.10-slim`) exposant le serveur ASGI Uvicorn sur le port 7860.
-* **Hébergement Cloud** : Déployée sur **Hugging Face Spaces** (infrastructure conteneurisée permanente avec 2 vCPU, 16 Go de RAM et terminaison HTTPS automatique).
+* **Hébergement Cloud** : Déployée sur **Vercel** via l'environnement Serverless Python natif (`@vercel/python`) avec configuration d'exécution optimisée ([vercel.json](file:///home/lynxxoven/Documents/Bootcamp_RodiumAi_S7/vercel.json)) et terminaison HTTPS globale.
+* **Point d'Entrée ASGI** : Point d'accès centralisé dans [api/index.py](file:///home/lynxxoven/Documents/Bootcamp_RodiumAi_S7/api/index.py) chargeant l'application FastAPI et assurant la liaison avec les modules métier.
 * **Passerelle WhatsApp** : Connectée à l'API **Green API** via un endpoint Webhook sécurisé (`/webhook`) avec authentification par jeton secret (`Authorization`) et traitement événementiel asynchrone (`BackgroundTasks`).
 * **Supervision & API** : Surveillance via la sonde `/health` et interface de test interactive OpenAPI disponible sur `/docs`.
 
