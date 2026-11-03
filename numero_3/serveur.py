@@ -27,15 +27,26 @@ app = FastAPI(title="Agent Vendeur WhatsApp Boutique Afi", version="1.0.0")
 dedoublonnage = GestionnaireDedoublonnage()
 limiteur = LimiteurDebit(max_par_heure=30)
 gestionnaire_validation = GestionnaireValidationWhatsApp(numero_afi=NUMERO_AFI_WHATSAPP)
+mode_simu = os.getenv("MODE_SIMULATION", "false").lower() == "true"
 client_whatsapp = ClientGreenAPI(
     url_api=GREEN_API_URL,
     id_instance=GREEN_API_ID_INSTANCE,
     token_instance=GREEN_API_TOKEN_INSTANCE,
-    mode_simulation=True
+    mode_simulation=mode_simu
 )
 
 # memoire conversationnelle bornee par client
 historiques_conversations = {}
+
+# racine de l application pour test rapide dans le navigateur
+@app.get("/")
+def page_racine():
+    return {
+        "statut": "actif",
+        "boutique": "Dantokpa Afi",
+        "service": "Agent Vendeur WhatsApp",
+        "endpoints": ["/health", "/webhook", "/docs"]
+    }
 
 # verification de l etat de sante du service
 @app.get("/health")
@@ -132,10 +143,10 @@ def traiter_message_arriere_plan(chat_id: str, texte_message: str):
 # endpoint principal du webhook green api
 @app.post("/webhook")
 async def recevoir_webhook(request: Request, background_tasks: BackgroundTasks, authorization: str = Header(None)):
-    # validation du jeton de webhook dans l en-tete authorization (supporte avec ou sans prefixe Bearer)
+    # validation du jeton de webhook dans l en-tete authorization (supporte avec ou sans prefixe Bearer / Basic)
     if not authorization:
         raise HTTPException(status_code=401, detail="Jeton de webhook manquant")
-    token_recu = authorization.replace("Bearer ", "").strip()
+    token_recu = authorization.replace("Bearer ", "").replace("Basic ", "").strip()
     if token_recu != WEBHOOK_SECRET_TOKEN and authorization.strip() != WEBHOOK_SECRET_TOKEN:
         raise HTTPException(status_code=401, detail="Jeton de webhook invalide")
 
@@ -174,6 +185,9 @@ async def recevoir_webhook(request: Request, background_tasks: BackgroundTasks, 
     else:
         texte = donnees_message.get("extendedTextMessageData", {}).get("text", "")
 
-    # reponse immediate 200 ok et execution asynchrone en arriere-plan
-    background_tasks.add_task(traiter_message_arriere_plan, chat_id, texte)
+    # sur Vercel / serverless, execution synchrone pour eviter le gel du conteneur
+    if os.getenv("VERCEL"):
+        traiter_message_arriere_plan(chat_id, texte)
+    else:
+        background_tasks.add_task(traiter_message_arriere_plan, chat_id, texte)
     return JSONResponse(status_code=200, content={"status": "reçu"})
