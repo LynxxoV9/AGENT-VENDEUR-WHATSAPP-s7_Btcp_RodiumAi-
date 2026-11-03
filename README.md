@@ -117,7 +117,23 @@ Pour assurer un fonctionnement 24h/24 sans dépendance à une machine locale :
 
 ---
 
-## 5. Contact & Support
+## 5. Démonstration & Captures d'Écran en Production
+
+### 5.1 Vérification des Endpoints en Ligne (Vercel)
+
+| Sonde de Santé (`/health`) | Test Webhook Sécurisé (`curl`) |
+| :---: | :---: |
+| ![Vérification de Santé](images/api-s-health-checking.png) | ![Test Webhook cURL](images/test_curl.png) |
+
+### 5.2 Démonstration Réelle des Échanges WhatsApp
+
+| 1. Consultation & Catalogue | 2. Prise de Commande & Calculs | 3. Validation Humaine par Afi |
+| :---: | :---: | :---: |
+| <img src="images/discussion_01.jpeg" width="280" alt="Dialogue WhatsApp - Consultation" /> | <img src="images/discussion_02.jpeg" width="280" alt="Dialogue WhatsApp - Commande" /> | <img src="images/discussion_03.jpeg" width="280" alt="Dialogue WhatsApp - Validation Afi" /> |
+
+---
+
+## 6. Contact & Support
 
 Pour toute question, démonstration ou intégration relative à ce projet :
 * **WhatsApp** : [+228 71 37 97 48](https://wa.me/22871379748)
